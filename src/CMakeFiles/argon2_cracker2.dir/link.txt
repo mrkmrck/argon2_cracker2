@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/argon2_cracker2.dir/main.cpp.o CMakeFiles/argon2_cracker2.dir/benchmark.cpp.o CMakeFiles/argon2_cracker2.dir/crack.cpp.o CMakeFiles/argon2_cracker2.dir/utils.cpp.o -o argon2_cracker2  -Wl,-Bstatic -largon2 -Wl,-Bdynamic -ldocopt 
