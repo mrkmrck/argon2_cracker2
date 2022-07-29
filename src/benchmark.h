@@ -1,3 +1,6 @@
+#ifndef BENCHMARK_H
+#define BENCHMARK_H
+
 #include "utils.h"
 #include "argon2.h"
 #include <iostream>
@@ -9,3 +12,5 @@
 #define SALTLEN 16
 
 void run_benchmark();
+
+#endif // BENCHMARK_H
