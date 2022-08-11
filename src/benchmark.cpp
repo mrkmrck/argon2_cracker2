@@ -3,7 +3,6 @@
 
 void run_benchmark() {
 
-    #if 1
     unsigned char out[HASHLEN];
     unsigned char salt_array[SALTLEN];
 
@@ -44,10 +43,8 @@ void run_benchmark() {
                   << (double)iterations/run_time.count() << " H/s (run time)    " 
                   << cpu_time << " s  " 
                   << (double)iterations/cpu_time << " H/s (CPU time)    " 
-                //   << "\n";
                   << std::endl;
     
-    #endif
     }
 }
 
