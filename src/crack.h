@@ -1,5 +1,6 @@
 #ifndef CRACK_H
 #define CRACK_H
+
 #include "argon2.h"
 #include "utils.h"
 

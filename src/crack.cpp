@@ -1,6 +1,10 @@
 #include "crack.h"
 
-void crack(const bool &format_hex, std::unordered_set<std::string> &hashes, const std::string &potfile, const std::string &stype, const std::string &wordfile) {
+void crack(const bool &format_hex, 
+           std::unordered_set<std::string> &hashes, 
+           const std::string &potfile, 
+           const std::string &stype, 
+           const std::string &wordfile) {
     argon2_type type{Argon2_id};
     if (stype == "i")
         type = Argon2_i;
@@ -16,15 +20,15 @@ void crack(const bool &format_hex, std::unordered_set<std::string> &hashes, cons
         crack_using_stdin(format_hex, hashes, potfile, type);
 }   
 
-void crack_using_wordfile(const bool &format_hex, std::unordered_set<std::string> &hashes, const std::string &potfile, const argon2_type &type, const std::string &wordfile) {
+void crack_using_wordfile(const bool &format_hex, 
+                          std::unordered_set<std::string> &hashes, 
+                          const std::string &potfile, 
+                          const argon2_type &type, 
+                          const std::string &wordfile) {
     auto timenow = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    std::cout << "Started on " << ctime(&timenow) << "\n";
+    std::cout << "Started on " << ctime(&timenow) << std::endl;
     std::ifstream wordlist;
     wordlist.open(wordfile);
-    if (!wordlist) {
-        std::cerr << "No such file: " << wordfile << "\n";
-        exit(1);
-    } 
 
     std::string pwd;
     const auto start = std::chrono::system_clock::now();
@@ -37,7 +41,7 @@ void crack_using_wordfile(const bool &format_hex, std::unordered_set<std::string
             const std::chrono::duration<double> elapsed = now - last;
             if (elapsed.count() > notification_time) {
                 check_potfile(potfile, hashes);
-                std::cout << "Time elapsed since last notification: " << elapsed.count() << "s \n";
+                std::cout << "Time elapsed since last notification: " << elapsed.count() << "s" << std::endl;
                 last = now; 
             }
             std::ofstream outfile;
@@ -50,30 +54,24 @@ void crack_using_wordfile(const bool &format_hex, std::unordered_set<std::string
     }
     wordlist.close();
     const std::chrono::duration<double> run_time = std::chrono::system_clock::now() - start;
-    std::cout << "\nElapsed time: " << run_time.count() << "s \n";
+    std::cout << "Elapsed time: " << run_time.count() << "s \n";
 
     timenow = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     std::cout << "\nFinished on " << ctime(&timenow);
 }
 
-void crack_using_stdin(const bool &format_hex, std::unordered_set<std::string> &hashes, const std::string &potfile, const argon2_type &type) {
+void crack_using_stdin(const bool &format_hex, 
+                       std::unordered_set<std::string> &hashes, 
+                       const std::string &potfile, 
+                       const argon2_type &type) {
     while (true) {
         std::string pwd;
-        printf("\nEnter word:\n");
+        std::cout << "Enter word: ";
         std::cin >> pwd;
-        std::cout << "Checking hashes for password: " << pwd << "\n";
+        std::cout << "Checking hashes for: " << pwd << std::endl;
 
-        constexpr size_t notification_time{6};
         const auto start = std::chrono::system_clock::now();
-        auto last = start;
         if (potfile.size() > 0) {
-            const auto now = std::chrono::system_clock::now();
-            const std::chrono::duration<double> elapsed = now - last;
-            if (elapsed.count() > notification_time) {
-                check_potfile(potfile, hashes);
-                std::cout << "Time elapsed since last notification: " << elapsed.count() << "s \n";
-                last = now; 
-            }
             std::ofstream outfile;
             outfile.open(potfile, std::ios_base::app);
             auto nfound = check_pwd(format_hex, hashes, outfile, pwd, type);
@@ -83,11 +81,15 @@ void crack_using_stdin(const bool &format_hex, std::unordered_set<std::string> &
             check_pwd(format_hex, hashes, std::cout, pwd, type);
         }
         const std::chrono::duration<double> run_time = std::chrono::system_clock::now() - start;
-        std::cout << "Elapsed time: " << run_time.count() << "s \n";
+        std::cout << "Elapsed time: " << run_time.count() << "s\n" << std::endl;
     }
 }
 
-size_t check_pwd(const bool &format_hex, std::unordered_set<std::string> &hashes, std::ostream &os, const std::string &pwd, const argon2_type &type) {
+size_t check_pwd(const bool &format_hex, 
+                 std::unordered_set<std::string> &hashes, 
+                 std::ostream &os, 
+                 const std::string &pwd, 
+                 const argon2_type &type) {
     size_t nfound{0};
 
     auto verify = [format_hex, &os, pwd, type](auto const& hash) { 

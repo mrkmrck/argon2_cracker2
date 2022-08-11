@@ -9,7 +9,7 @@ void print_hex(std::ostream &os, const std::string &s) {
 
 void check_potfile(const std::string &file, std::unordered_set<std::string> &hashes) {
     size_t nfound{0};
-    std::cout << "\nChecking potfile...\n";
+    std::cout << "Checking potfile...\n";
     std::ifstream potfile; 
     potfile.open(file);
     std::string line;
@@ -21,7 +21,7 @@ void check_potfile(const std::string &file, std::unordered_set<std::string> &has
             });
         }
     }
-    std::cout << nfound << " (new) hash(es) found in potfile.\n";
+    std::cout << nfound << " (new) hash(es) found in potfile.\n" << std::endl;
 
     potfile.close();
 }

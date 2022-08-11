@@ -12,7 +12,7 @@ void run_benchmark() {
     const uint32_t parallelism{4};       
     constexpr std::array<argon2_type, 3> types = {Argon2_d, Argon2_i, Argon2_id};
 
-    const size_t iterations{100};
+    const size_t iterations{1000};
     std::cout << "Total iterations: " << iterations << "\n";
 
     for (const auto &type : types) {
@@ -44,7 +44,8 @@ void run_benchmark() {
                   << (double)iterations/run_time.count() << " H/s (run time)    " 
                   << cpu_time << " s  " 
                   << (double)iterations/cpu_time << " H/s (CPU time)    " 
-                  << "\n";
+                //   << "\n";
+                  << std::endl;
     
     #endif
     }
